@@ -45,7 +45,7 @@ describe('signing up - HTML web form', () => {
     })
 
     // TEST BACKEND INPUT VALIDATION FOR USED USERNAME
-    it('Test backend validation - signing up with in-used username', () => {
+    it('Test backend validation - signing up with in-use username', () => {
         cy.intercept('POST', `${constants.apiUrl}/users`).as('signup')
 
         const newValidEmail = common.generateValidEmail();

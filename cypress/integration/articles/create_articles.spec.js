@@ -22,11 +22,11 @@ describe('Create new articles', () => {
         })
         cy.url('eq', constants.urls.editor);
 
-        cy.get('.form-control[type="text"][placeholder="Article title"]').should('exist');
-        cy.get('.form-control[type="text"][placeholder="What is this article about?"]').should('exist');
-        cy.get('.form-control[rows="8"][placeholder="Write your article (in markdown)"]').should('exist');
-        cy.get('.form-control[type="text"][placeholder="Enter tags"]').should('exist');
-        cy.get('button[type="button"]').contains('Publish article').should('exist');
+        cy.get('.form-control[type="text"][placeholder="Article title"]').should('be.visible');
+        cy.get('.form-control[type="text"][placeholder="What is this article about?"]').should('be.visible');
+        cy.get('.form-control[rows="8"][placeholder="Write your article (in markdown)"]').should('be.visible');
+        cy.get('.form-control[type="text"][placeholder="Enter tags"]').should('be.visible');
+        cy.get('button[type="button"]').contains('Publish article').should('be.visible');
     })
 
     // TEST PUBLISHING ARTICLE WITH NO TITLE, DESC, BODY AND TAGS

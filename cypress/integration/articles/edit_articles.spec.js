@@ -73,12 +73,11 @@ describe('Editing articles', () => {
     // TEST EDITING AN ALREADY CREATED ARTICLE - MISSING FIELDS
     it('Editing an already created article with missing fields', () => {
         const article = common.generateNewArticle()
-        const newArticle = common.generateNewArticle()
 
         cy.intercept('PUT', `${constants.apiUrl}/articles/*`).as('putArticle');
         cy.LoginAndPublishArticle(validUser, article.title, article.desc, article.body, article.tag);
 
-        cy.get('.nav-link').contains(validUser.name).click();
+        cy.get('.nav-link').contains(validUser.name).should('be.visible').click();
         cy.get('.preview-link').contains(article.title).should('be.visible').click();
 
         cy.get('.container > .article-meta > :nth-child(3) > .btn-outline-secondary').should('exist').click();

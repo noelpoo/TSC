@@ -20,13 +20,14 @@ describe("Deleting articles", () => {
     it('Creating and deleting single article', () => {
         const article = common.generateNewArticle();
         cy.intercept('DELETE', `${constants.apiUrl}/articles/*`).as('delete');
-        
+        // CREATING A SINGLE ARTICLE
         cy.visit(constants.urls.editor);
         cy.publishArticle(article.title, article.desc, article.body, article.tag);
         cy.url().should('include', `${constants.urls.homepage}/article`)
         cy.get('h1').contains(article.title).should('be.visible');
         cy.get('p').contains(article.body).should('be.visible');
 
+        // DELETING THE ARTICLE, EXPECTING 404 WHEN VISITING ARTICLE URL
         cy.url().then((urlString)=>{
             cy.get('.btn.btn-outline-danger.btn-sm').contains(' Delete Article').click()
             cy.wait('@delete').then((resp) => {
@@ -38,10 +39,13 @@ describe("Deleting articles", () => {
             cy.wait('@getArticle').then((resp) => {
                 expect(resp.response.statusCode).to.equal(404);
             })
+        // EXPECTING DELETED ARTICLE TO NOT EXIST ON PROFILE PAGE
+        cy.visit(`${constants.urls.profile}/${validUser.name}`);
+        cy.get('.preview-link').contains(article.title).should('not.exist');
         })
     })
 
-    // TEST CREATING MULTIPLE ARTICLES AND DELETING THEM
+    // TEST CREATING MULTIPLE ARTICLES AND DELETING THEM AND EXPECT THAT THEY DO NOT EXIST ON THE DOM
     it('Creating multiple articles and deleting them', () => {
         cy.intercept('DELETE', `${constants.apiUrl}/articles/*`).as('delete');
 
